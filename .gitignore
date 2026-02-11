@@ -5,6 +5,7 @@
 !.gitignore
 
 # --- ALLOW LIST
+!mpv/
 !fish/
 !nvim/
 !kitty/
