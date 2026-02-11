@@ -1,0 +1,43 @@
+/* Rofi Power Menu Theme */
+
+* {
+    background-color: rgba(69, 64, 61, 0.5);
+    text-color: #ebdbb2;
+    font: "FiraCode Nerd Font 12";
+    border-radius: 10px;
+}
+
+window {
+    width: 200px;
+    padding: 10px;
+    border: 2px;
+    border-color: #d4be98;
+}
+
+mainbox {
+    children: [listview];
+}
+
+listview {
+    lines: 5;
+    spacing: 5px;
+    cycle: true;
+    dynamic: true;
+    layout: vertical;
+}
+
+element {
+    padding: 5px;
+    orientation: horizontal;
+    text-color: #ebdbb2;
+}
+
+element-text {
+    background-color: inherit;
+    text-color: inherit;
+}
+
+element selected {
+    background-color: rgba(212, 130, 76, 0.9);
+    text-color: #45403d;
+}

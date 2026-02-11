@@ -1,0 +1,211 @@
+* {
+  font-family: FiraCode Nerd Font;
+  font-size: 17px;
+  font-weight: bold;
+  border-radius: 0px;
+  margin: 0;
+}
+
+window#waybar {
+  background-color: transparent;
+  border-radius: 10px;
+  padding-top: 0px;
+  margin-top: 0;
+}
+
+.modules-right {
+  font-size: 10px;
+  background-color: rgba(69, 64, 61, 0.5);
+  border-radius: 10px;
+  padding: 0;
+  margin: 5px 0px 5px 0px;
+}
+
+.modules-left {
+  margin-left: 0.1rem;
+  background-color: rgba(69, 64, 61, 0.5);
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 1px 0px;
+  border-radius: 10px;
+}
+
+.modules-center {
+  background-color: rgba(69, 64, 61, 0.1);
+  padding: 0px;
+  margin: 5px 0px 5px 0px;
+  border-radius: 10px;
+}
+
+tooltip {
+  background: #45403d;
+  border-radius: 10px;
+}
+
+tooltip label {
+  color: #ebdbb2;
+  background-color: rgba(69, 64, 61, 0.5);
+  border-radius: 10px;
+}
+
+tooltip * {
+  border-radius: 10px;
+}
+
+#workspaces {
+  margin: 1px;
+  margin-right: 0.3rem;
+  margin-left: 0.3rem;
+}
+
+#workspaces button {
+  margin: 0;
+  color: #d4be98;
+  font-weight: bolder;
+  font-style: normal;
+  margin: 0.2rem 0.1rem;
+  border-radius: 20px;
+}
+
+#workspaces button:hover {
+  box-shadow: inherit;
+  text-shadow: inherit;
+  background-color: rgb(212, 130, 76);
+  color: #45403d;
+  border-radius: 10px;
+}
+
+#workspaces button.active {
+  color: #ebdbb2;
+  background-color: rgba(212, 130, 76, 0.9);
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.818);
+  transition: all 0.1s ease-in-out;
+  border-radius: 20px;
+}
+
+#clock,
+#custom-weather,
+#custom-logo {
+  color: #d4be98;
+  background-color: rgba(69, 64, 61, 0.5);
+}
+
+#clock {
+  padding: 0 0.5em;
+  background-color: rgba(69, 64, 61, 0.5);
+  border-radius: 10px 0px 0px 10px;
+}
+
+#custom-logo {
+  padding-right: 1em;
+  color: #D6625D;
+}
+
+#custom-weather {
+  padding: 0 1em;
+}
+
+#custom-prayerbar {
+  padding: 0 0.5em;
+  color: #a9b665;
+  background-color: rgba(69, 64, 61, 0.5);
+  border-radius: 0px 10px 10px 0px;
+}
+
+#custom-spotify {
+  padding: 0 0 0 1.5em;
+  border-radius: 10px 0px 0px 10px;
+}
+#memory {
+  color: #a9b665;
+  padding: 0 0.3em 0 0.5em;
+  border-radius: 10px 0px 0px 10px;
+}
+
+#pulseaudio {
+  margin: 0;
+  padding: 0 0.5em 0 0.4em;
+  color: #d8a657;
+}
+
+#pulseaudio.microphone {
+  color: #D6625D;
+}
+
+#backlight {
+  margin: 0;
+  padding: 0 0.5em 0 0.4em;
+  color: #d8a657;
+}
+
+#cpu {
+  margin: 0;
+  padding: 0 0.1em 0 0.1em;
+  color: #a9b665;
+}
+
+#network {
+  margin: 0;
+  padding: 0 0.4em 0 0.5em;
+  color: #d8a657;
+}
+
+#custom-cycle_wall {
+  margin: 0;
+  padding: 0 0.5em;
+  color: #d3869b;
+}
+
+#language {
+  margin: 0;
+  padding: 0 0.1em;
+  color: #d3869b;
+}
+
+#tray {
+  margin: 0;
+  padding-right: 10px;
+  color: #d3869b;
+  border-radius: 0px 10px 10px 0px;
+}
+
+#battery {
+  margin: 0;
+  padding: 0 0.5em 0 0.8em;
+  color: #a9b665;
+}
+
+#custom-battery {
+  color: #a9b665;
+  padding: 0 0.5em 0 0.8em;
+}
+
+#custom-battery.charging {
+  color: #d8a657;
+}
+
+#custom-battery.low {
+  color: #D6625D;
+}
+
+#disk {
+  margin: 0;
+  padding: 0 0.1em 0 0.1em;
+  color: #a9b665;
+}
+
+#window {
+  color: #ebdbb2;
+  margin-left: 0rem;
+  margin-right: 1rem;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.818);
+  transition: all 0.1s ease-in-out;
+  border-radius: 0px;
+  font-size: 15px;
+}
+
+#custom-keyboard-layout {
+  margin: 0;
+  padding: 0 0.5em;
+  color: #d3869b;
+}

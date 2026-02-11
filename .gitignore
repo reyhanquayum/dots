@@ -1,0 +1,28 @@
+# Ignore everything by default
+/*
+
+# Allow the .gitignore itself
+!.gitignore
+
+# --- ALLOW LIST
+!fish/
+!nvim/
+!kitty/
+!sway/
+!waybar/
+!niri/
+!tmux/
+!fastfetch/
+!btop/
+!rofi/
+!starship.toml
+!scripts/
+!hypr/
+
+# leak protection
+**/.DS_Store
+**/node_modules/
+**/__pycache__/
+**/*.log
+**/cloud/
+**/.python_history

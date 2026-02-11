@@ -1,0 +1,5 @@
+[2025-10-01 13:20:12.103] [info] Using configuration file /home/reyhan/.config/waybar/config.jsonc
+[2025-10-01 13:20:12.107] [info] Discovered appearance 'dark'
+[2025-10-01 13:20:12.141] [info] Using CSS file /home/reyhan/.config/waybar/style.css
+[2025-10-01 13:20:12.149] [info] Niri IPC starting
+[2025-10-01 13:20:12.203] [info] Bar configured (width: 1900, height: 44) for output: eDP-1

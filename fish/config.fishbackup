@@ -1,0 +1,49 @@
+source /usr/share/cachyos-fish-config/cachyos-config.fish
+
+# overwrite greeting
+# potentially disabling fastfetch
+#function fish_greeting
+#    # smth smth
+#end
+#
+#alias sioyek="kitty +kitten launch sioyek"
+#alias nautilus="kitty +kitten launch nautilus"
+eval "$(zoxide init --cmd cd fish)"
+
+function fish_user_key_bindings
+  fish_vi_key_bindings
+end
+
+function fish_right_prompt_cmd_duration --on-event fish_postexec
+  if set -q CMD_DURATION; and math "$CMD_DURATION" > 0
+    set -l duration_ms $CMD_DURATION
+
+    if test "$duration_ms" -lt 1000
+        echo -n (set_color yellow)" "$duration_ms"ms"(set_color normal)
+    else
+        set -l duration_s (math "round($duration_ms / 10.0) / 100.0")
+        echo -n (set_color yellow)" "$duration_s"s"(set_color normal)
+    end
+  end
+end
+
+
+function fish_prompt
+    # Set colors
+    set_color green
+    echo -n (whoami)
+    set_color normal
+    echo -n "@"
+    set_color blue
+    echo -n (hostname|cut -d . -f 1)
+    set_color normal
+    echo -n ":"
+    set_color magenta
+    echo -n (prompt_pwd) # Current working directory, often shortened
+    set_color red
+    # Add the Git VCS prompt if in a Git repository
+    echo -n (fish_vcs_prompt)
+    set_color normal
+    echo -n "> " # Your prompt ending character
+end
+
