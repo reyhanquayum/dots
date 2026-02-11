@@ -4,6 +4,7 @@
 --   /       open search prompt
 --   n       next match (wraps)
 --   N       previous match (wraps)
+--   Ctrl+g  go to match number (type a number to jump directly)
 --   Ctrl+o  jump back to where search was initiated
 
 local utils = require("mp.utils")
@@ -352,6 +353,40 @@ local function prev_match()
 end
 
 ----------------------------------------------------------------------------
+-- Go to match number: Ctrl+g
+----------------------------------------------------------------------------
+local function goto_match()
+    if #matches == 0 then
+        mp.osd_message("No search results — press / to search", 2)
+        return
+    end
+
+    if not input then
+        local ok, mod = pcall(require, "mp.input")
+        if not ok then
+            mp.osd_message("mp.input not available (requires mpv 0.36+)", 3)
+            return
+        end
+        input = mod
+    end
+
+    input.get({
+        prompt = string.format("Go to match [1-%d]: ", #matches),
+        submit = function(text)
+            input.terminate()
+            if not text or text == "" then return end
+            local num = tonumber(text)
+            if not num or num < 1 or num > #matches or num ~= math.floor(num) then
+                mp.osd_message(string.format("Invalid match number (1-%d)", #matches), 2)
+                return
+            end
+            match_idx = num
+            jump_to_match()
+        end,
+    })
+end
+
+----------------------------------------------------------------------------
 -- Go-back: Ctrl+o
 ----------------------------------------------------------------------------
 local function go_back()
@@ -413,4 +448,5 @@ end
 mp.add_key_binding("/", "sub-search-open", open_search)
 mp.add_key_binding("n", "sub-search-next", next_match)
 mp.add_key_binding("N", "sub-search-prev", prev_match)
+mp.add_key_binding("Ctrl+g", "sub-search-goto", goto_match)
 mp.add_key_binding("Ctrl+o", "sub-search-go-back", go_back)
