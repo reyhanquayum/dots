@@ -19,10 +19,11 @@
 !scripts/
 !hypr/
 
-# leak protection
+# do not allow
 **/.DS_Store
 **/node_modules/
 **/__pycache__/
 **/*.log
 **/cloud/
 **/.python_history
+**/nohup.out
