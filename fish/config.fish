@@ -170,8 +170,19 @@ function fwrec
 end
 
 function pall
-    # function to play all videos in a directory, map subtitles, sticky settings
+    # function to play all media in a directory, map subtitles, sticky settings
     # made for OMSCS, but should work in general
+    # --- Collect media files ---
+    set -l media
+    for ext in mp4 mkv webm avi mov opus mp3 flac m4a wav ogg aac wma
+        set -a media *.$ext 2>/dev/null
+    end
+    set media (for f in $media; test -f "$f"; and echo "$f"; end | sort)
+    if test (count $media) -eq 0
+        echo "No media files found in current directory."
+        return 1
+    end
+
     # --- Resume state ---
     set -l state_dir "$HOME/.local/state/mpv-playall"
     set -l encoded_dir (string replace -a '/' '%' (pwd))
@@ -182,7 +193,7 @@ function pall
         set -l lines (string trim < "$state_file" | string split \n)
         set -l saved_pos $lines[1]
         set -l saved_speed $lines[2]
-        set -l file_count (count *.mp4)
+        set -l file_count (count $media)
         if string match -qr '^\d+$' "$saved_pos"; and test "$saved_pos" -gt 0 2>/dev/null; and test "$saved_pos" -lt "$file_count" 2>/dev/null
             set -a resume_args --playlist-start=$saved_pos
             echo "Resuming playlist from file "(math $saved_pos + 1)"/$file_count"
@@ -217,22 +228,22 @@ function pall
 
     # No subtitles found — plain playback
     if test -z "$srt_dir"
-        mpv --fs $resume_args *.mp4
+        mpv --fs --term-osd=force $resume_args $media
         return
     end
 
     set -l srts (find "$srt_dir" -maxdepth 1 -name '*.srt' -print | sort)
     if test (count $srts) -eq 0
-        mpv --fs $resume_args *.mp4
+        mpv --fs --term-osd=force $resume_args $media
         return
     end
 
     # --- Build mpv args with per-file subtitle matching ---
-    set -l args --fs
+    set -l args --fs --term-osd=force
     set -l idx 0
-    for mp4 in *.mp4
+    for f in $media
         set idx (math $idx + 1)
-        set -l base_name (string replace -r '\.mp4$' '' "$mp4")
+        set -l base_name (string replace -r '\.[^.]+$' '' "$f")
         set -l num_prefix (string match -r '^\d+' "$base_name")
         set -l matched ""
 
@@ -262,7 +273,7 @@ function pall
         if test -n "$matched"
             set -a args --sub-file="$matched"
         end
-        set -a args "$mp4"
+        set -a args "$f"
         set -a args '--}'
     end
 
