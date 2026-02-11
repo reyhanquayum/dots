@@ -225,15 +225,18 @@ function pall
     # 1. Current directory has .srt files (HPCA same-dir modules)
     if find . -maxdepth 1 -name '*.srt' -print -quit | read -l _found
         set srt_dir (pwd)
+    # 2. Child "subtitles" directory
+    else if test -d (pwd)"/subtitles"
+        set srt_dir (pwd)"/subtitles"
     else
         set -l parent (dirname (pwd))
         set -l base (basename (pwd))
 
-        # 2. GIOS style: <dirname>_subtitles sibling
+        # 3. GIOS style: <dirname>_subtitles sibling
         if test -d (pwd)"_subtitles"
             set srt_dir (pwd)"_subtitles"
         else
-            # 3. HPCA style: sibling dir with spaces instead of underscores
+            # 4. HPCA style: sibling dir with spaces instead of underscores
             set -l space_name (string replace -a '_' ' ' "$base")
             if test "$space_name" != "$base"; and test -d "$parent/$space_name"
                 set srt_dir "$parent/$space_name"
