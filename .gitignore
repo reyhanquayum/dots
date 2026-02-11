@@ -5,6 +5,7 @@
 !.gitignore
 
 # --- ALLOW LIST
+!zathura/
 !mpv/
 !fish/
 !nvim/
