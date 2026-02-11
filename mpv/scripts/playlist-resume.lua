@@ -12,6 +12,12 @@ local function get_state_file()
     return state_dir .. "/" .. encoded
 end
 
+-- Track time-pos continuously since it's unavailable during shutdown
+local last_time_pos = 0
+mp.observe_property("time-pos", "number", function(_, val)
+    if val then last_time_pos = val end
+end)
+
 mp.register_event("shutdown", function()
     if mp.get_opt("playlist_resume") ~= "yes" then return end
 
@@ -32,7 +38,19 @@ mp.register_event("shutdown", function()
         if fh then
             fh:write(tostring(pos) .. "\n")
             fh:write(tostring(speed) .. "\n")
+            fh:write(tostring(last_time_pos) .. "\n")
             fh:close()
         end
+    end
+end)
+
+-- Seek to saved timestamp on resume (passed via script-opts from pall)
+local resumed = false
+mp.register_event("file-loaded", function()
+    if resumed then return end
+    local time = tonumber(mp.get_opt("playlist_resume_time"))
+    if time and time > 0 then
+        resumed = true
+        mp.commandv("seek", tostring(time), "absolute+exact")
     end
 end)

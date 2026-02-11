@@ -193,10 +193,25 @@ function pall
         set -l lines (string trim < "$state_file" | string split \n)
         set -l saved_pos $lines[1]
         set -l saved_speed $lines[2]
+        set -l saved_time $lines[3]
         set -l file_count (count $media)
-        if string match -qr '^\d+$' "$saved_pos"; and test "$saved_pos" -gt 0 2>/dev/null; and test "$saved_pos" -lt "$file_count" 2>/dev/null
-            set -a resume_args --playlist-start=$saved_pos
-            echo "Resuming playlist from file "(math $saved_pos + 1)"/$file_count"
+        set -l has_resume false
+        if string match -qr '^\d+$' "$saved_pos"; and test "$saved_pos" -ge 0 2>/dev/null; and test "$saved_pos" -lt "$file_count" 2>/dev/null
+            set -l time_display ""
+            if string match -qr '^[0-9.]+$' "$saved_time"; and test "$saved_time" != 0
+                set -l mins (math "floor($saved_time / 60)")
+                set -l secs (math "floor($saved_time % 60)")
+                set time_display (printf " at %d:%02d" $mins $secs)
+                set resume_args[1] --script-opts=playlist_resume=yes,playlist_resume_time=$saved_time
+                set has_resume true
+            end
+            if test "$saved_pos" -gt 0
+                set -a resume_args --playlist-start=$saved_pos
+                set has_resume true
+            end
+            if test "$has_resume" = true
+                echo "Resuming playlist from file "(math $saved_pos + 1)"/$file_count$time_display"
+            end
         end
         if string match -qr '^[0-9.]+$' "$saved_speed"; and test "$saved_speed" != 1
             set -a resume_args --speed=$saved_speed
@@ -228,18 +243,18 @@ function pall
 
     # No subtitles found — plain playback
     if test -z "$srt_dir"
-        mpv --fs --term-osd=force $resume_args $media
+        mpv --fs $resume_args $media
         return
     end
 
     set -l srts (find "$srt_dir" -maxdepth 1 -name '*.srt' -print | sort)
     if test (count $srts) -eq 0
-        mpv --fs --term-osd=force $resume_args $media
+        mpv --fs $resume_args $media
         return
     end
 
     # --- Build mpv args with per-file subtitle matching ---
-    set -l args --fs --term-osd=force
+    set -l args --fs
     set -l idx 0
     for f in $media
         set idx (math $idx + 1)
