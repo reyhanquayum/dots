@@ -262,7 +262,7 @@ function pall
     end
 
     # --- Build mpv args with per-file subtitle matching ---
-    set -l args --fs
+    set -l args --fs --sub-auto=no
     set -l idx 0
     for f in $media
         set idx (math $idx + 1)
