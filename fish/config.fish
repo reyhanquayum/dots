@@ -50,7 +50,7 @@ end
 function latestvid
     set vid (find . -type f \( -iname "*.mkv" -o -iname "*.mp4" -o -iname "*.mov" \) -printf "%T@ %p\n" | sort -nr | head -n1 | cut -d" " -f2-)
     if test -n "$vid"
-        showtime "$vid"
+        mpv "$vid"
     end
 end
 
@@ -172,6 +172,11 @@ end
 function pall
     # function to play all media in a directory, map subtitles, sticky settings
     # made for OMSCS, but should work in general
+    set -l extra_mpv_args
+    if contains -- --video $argv
+        set -a extra_mpv_args --force-window=yes
+    end
+
     # --- Collect media files ---
     set -l media
     for ext in mp4 mkv webm avi mov opus mp3 flac m4a wav ogg aac wma
@@ -246,13 +251,13 @@ function pall
 
     # No subtitles found — plain playback
     if test -z "$srt_dir"
-        mpv --fs $resume_args $media
+        mpv --fs $extra_mpv_args $resume_args $media
         return
     end
 
     set -l srts (find "$srt_dir" -maxdepth 1 -name '*.srt' -print | sort)
     if test (count $srts) -eq 0
-        mpv --fs $resume_args $media
+        mpv --fs $extra_mpv_args $resume_args $media
         return
     end
 
@@ -295,7 +300,7 @@ function pall
         set -a args '--}'
     end
 
-    mpv $resume_args $args
+    mpv $extra_mpv_args $resume_args $args
 end
 
 function openw --description 'Open docx files silently in the background'
