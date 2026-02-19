@@ -174,7 +174,7 @@ function pall
     # made for OMSCS, but should work in general
     set -l extra_mpv_args
     if contains -- --video $argv
-        set -a extra_mpv_args --force-window=yes
+        set -a extra_mpv_args --force-window=yes --sub-pos=50
     end
 
     # --- Collect media files ---
