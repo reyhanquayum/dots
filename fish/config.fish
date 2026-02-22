@@ -25,8 +25,11 @@ alias vpn-gt-split='sudo openconnect --protocol=gp vpn.gatech.edu \
     -s "vpn-slice login-ice.pace.gatech.edu" \
     --background
 '
-alias fe='nautilus .'
 
+function fe
+    nautilus . >/dev/null 2>&1 &
+    disown
+end
 
 function fish_prompt
     # Set colors
@@ -199,6 +202,7 @@ function pall
         set -l saved_pos $lines[1]
         set -l saved_speed $lines[2]
         set -l saved_time $lines[3]
+        set -l saved_font_offset $lines[4]
         set -l file_count (count $media)
         set -l has_resume false
         if string match -qr '^\d+$' "$saved_pos"; and test "$saved_pos" -ge 0 2>/dev/null; and test "$saved_pos" -lt "$file_count" 2>/dev/null
@@ -221,6 +225,10 @@ function pall
         if string match -qr '^[0-9.]+$' "$saved_speed"; and test "$saved_speed" != 1
             set -a resume_args --speed=$saved_speed
             echo "Restoring playback speed: $saved_speed""x"
+        end
+        if string match -qr '^-?[0-9]+$' "$saved_font_offset"; and test "$saved_font_offset" != 0
+            set resume_args[1] "$resume_args[1],sub_font_offset=$saved_font_offset"
+            echo "Restoring subtitle font offset: $saved_font_offset"
         end
     end
 
@@ -316,18 +324,18 @@ function pomo
 
     while true
         for i in (seq $cycles)
-            echo "Cycle $i/$cycles — Focus!"
+            echo (date +%H:%M)" Cycle $i/$cycles — Focus!"
             sleep (math "$work * 60")
             notify-send -u critical -t 0 "Time for a break!"
 
             if test $i -lt $cycles
-                echo "Short break"
+                echo (date +%H:%M)" Short break for 5 minutes"
                 sleep (math "$short_break * 60")
                 notify-send -u critical -t 0 "Back to work!"
             end
         end
 
-        echo "Long break"
+        echo (date +%H:%M)" Long break for 30 minutes"
         sleep (math "$long_break * 60")
         notify-send -u critical -t 0 "Back to work!"
     end

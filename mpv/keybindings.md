@@ -36,6 +36,7 @@
 
 | Key | Action |
 |-----|--------|
+| `Alt+Up` / `Alt+Down` | Increase / decrease subtitle font size |
 | `v` | Toggle subtitle visibility |
 | `j` / `J` | Cycle forward / backward through subtitle tracks |
 | `z` | Shift subtitles earlier (-0.1s) |
