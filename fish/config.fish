@@ -307,3 +307,28 @@ function openw --description 'Open docx files silently in the background'
     nohup xdg-open $argv >/dev/null 2>&1 &
     disown
 end
+
+function pomo
+    set work 25
+    set short_break 5
+    set long_break 30
+    set cycles 4
+
+    while true
+        for i (seq $cycles)
+            echo "Cycle $i/$cycles — Focus!"
+            sleep (math "$work * 60")
+            notify-send -u critical -t 0 "Time for a break!"
+
+            if test $i -lt $cycles
+                echo "Short break"
+                sleep (math "$short_break * 60")
+                notify-send -u critical -t 0 "Back to work!"
+            end
+        end
+
+        echo "Long break"
+        sleep (math "$long_break * 60")
+        notify-send -u critical -t 0 "Back to work!"
+    end
+end
