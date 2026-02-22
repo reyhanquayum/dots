@@ -31,6 +31,8 @@ function fe
     disown
 end
 
+alias img  "kitty +kitten icat"
+
 function fish_prompt
     # Set colors
     set_color green
