@@ -315,7 +315,7 @@ function pomo
     set cycles 4
 
     while true
-        for i (seq $cycles)
+        for i in (seq $cycles)
             echo "Cycle $i/$cycles — Focus!"
             sleep (math "$work * 60")
             notify-send -u critical -t 0 "Time for a break!"
