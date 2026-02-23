@@ -1,5 +1,8 @@
 source /usr/share/cachyos-fish-config/cachyos-config.fish
 
+# Override CachyOS bat manpager — less breaks with Fish 4.x + Kitty keyboard protocol
+set -x MANPAGER "nvim +Man!"
+
 # overwrite greeting
 # potentially disabling fastfetch
 #function fish_greeting
