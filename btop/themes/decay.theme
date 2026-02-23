@@ -1,0 +1,92 @@
+# Decay theme for btop — ported from decay.conf (Kitty)
+# source: https://github.com/decaycs
+
+# Main background
+theme[main_bg]="#171a1f"
+
+# Main text color
+theme[main_fg]="#b6beca"
+
+# Title color for boxes
+theme[title]="#dee1e6"
+
+# Highlight color for keyboard shortcuts
+theme[hi_fg]="#74bee9"
+
+# Background color of selected item in processes box
+theme[selected_bg]="#22262e"
+
+# Foreground color of selected item in processes box
+theme[selected_fg]="#a9b1d6"
+
+# Color of inactive/disabled text
+theme[inactive_fg]="#384148"
+
+# Color of text appearing on top of graphs
+theme[graph_text]="#b6beca"
+
+# Background color of the percentage meters
+theme[meter_bg]="#1c252c"
+
+# Misc colors for processes box
+theme[proc_misc]="#c68aee"
+
+# Cpu box outline color
+theme[cpu_box]="#70a5eb"
+
+# Memory/disks box outline color
+theme[mem_box]="#78dba9"
+
+# Net up/down box outline color
+theme[net_box]="#e05f65"
+
+# Processes box outline color
+theme[proc_box]="#74bee9"
+
+# Box divider line and small boxes line color
+theme[div_line]="#384148"
+
+# Temperature graph colors (green → yellow → red)
+theme[temp_start]="#78dba9"
+theme[temp_mid]="#f1cf8a"
+theme[temp_end]="#e05f65"
+
+# CPU graph colors (green → cyan → blue)
+theme[cpu_start]="#78dba9"
+theme[cpu_mid]="#74bee9"
+theme[cpu_end]="#70a5eb"
+
+# Mem/Disk free meter (bright green → green → darker green)
+theme[free_start]="#94f7c5"
+theme[free_mid]="#78dba9"
+theme[free_end]="#4a9e73"
+
+# Mem/Disk cached meter (bright cyan → cyan → darker)
+theme[cached_start]="#90daff"
+theme[cached_mid]="#74bee9"
+theme[cached_end]="#4a9ec4"
+
+# Mem/Disk available meter (bright yellow → yellow → darker)
+theme[available_start]="#ffeba6"
+theme[available_mid]="#f1cf8a"
+theme[available_end]="#c9a855"
+
+# Mem/Disk used meter (bright red → red → darker red)
+theme[used_start]="#fc7b81"
+theme[used_mid]="#e05f65"
+theme[used_end]="#b03f44"
+
+# Download graph colors (bright blue → blue → darker)
+theme[download_start]="#8cc1ff"
+theme[download_mid]="#70a5eb"
+theme[download_end]="#4a85cb"
+
+# Upload graph colors (bright magenta → magenta → darker)
+theme[upload_start]="#e2a6ff"
+theme[upload_mid]="#c68aee"
+theme[upload_end]="#9a60c0"
+
+# Process box gradient (green → cyan → dark)
+theme[process_start]="#78dba9"
+theme[process_mid]="#74bee9"
+theme[process_end]="#384148"
