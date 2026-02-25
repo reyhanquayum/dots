@@ -29,6 +29,15 @@ alias vpn-gt-split='sudo openconnect --protocol=gp vpn.gatech.edu \
     --background
 '
 
+function compress
+    set input $argv[1]
+    set name (path change-extension "" $input)
+    ffmpeg -i "$input" \
+        -c:v libx265 -preset slow -crf 32 -tag:v hvc1 \
+        -c:a aac -b:a 64k \
+        "$name"_small.mp4
+end
+
 function fe
     nautilus . >/dev/null 2>&1 &
     disown
