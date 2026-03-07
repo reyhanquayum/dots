@@ -107,14 +107,14 @@ layout {
     background-color "transparent"
 
     focus-ring {
-        width 2 
+        width 1 
         active-color   "#9dcbfb"
         inactive-color "#8c9199"
         urgent-color   "#ffb4ab"
     }
 
     border {
-        width 2
+        width 1
         active-color   "#9dcbfb"
         inactive-color "#8c9199"
         urgent-color   "#ffb4ab"
@@ -134,7 +134,7 @@ layout {
         color "#9dcbfb80"
     }
 
-    gaps 6
+    gaps 0
 
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
@@ -254,7 +254,7 @@ window-rule {
 
 
 window-rule {
-    geometry-corner-radius 12
+    geometry-corner-radius 0
     clip-to-geometry true
     tiled-state true
     draw-border-with-background false

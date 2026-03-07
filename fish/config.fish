@@ -33,7 +33,7 @@ function compress
     set input $argv[1]
     set name (path change-extension "" $input)
     ffmpeg -i "$input" \
-        -c:v libx265 -preset slow -crf 32 -tag:v hvc1 \
+        -c:v libx265 -preset medium -crf 32 -tag:v hvc1 \
         -c:a aac -b:a 64k \
         "$name"_small.mp4
 end
@@ -72,12 +72,11 @@ function latestvid
 end
 
 function pdf
-    # Find PDFs with fzf and open in background
-    set -l selected (find . -type f -name "*.pdf" 2>/dev/null | fzf --preview 'pdftotext {} - | head -200')
-    
+    set -l dir (test (count $argv) -gt 0; and echo $argv[1]; or echo ~/Documents)
+    set -l selected (find "$dir" -type f -name "*.pdf" 2>/dev/null | fzf --preview 'pdftotext {} - | head -200')
+
     if test -n "$selected"
-        # Open in background with nohup to detach from terminal
-        nohup xdg-open "$selected" &>/dev/null &
+        sioyek "$selected" &>/dev/null &
         disown
         echo "Opening: $selected"
     end
