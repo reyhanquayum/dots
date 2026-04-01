@@ -112,6 +112,8 @@ starship init fish | source
 
 export ELECTRON_OZONE_PLATFORM_HINT="auto"
 export BROWSER=firefox
+set -x JAVA_HOME /usr/lib/jvm/java-17-openjdk
+fish_add_path $JAVA_HOME/bin
 
 # Start/create persistent GIOS container
 function gios-start

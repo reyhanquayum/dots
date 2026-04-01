@@ -107,7 +107,7 @@ layout {
     background-color "transparent"
 
     focus-ring {
-        width 1 
+        width 1
         active-color   "#9dcbfb"
         inactive-color "#8c9199"
         urgent-color   "#ffb4ab"
@@ -200,6 +200,11 @@ prefer-no-csd
 // A ~ at the front will be expanded to the home directory.
 // The path is formatted with strftime(3) to give you the screenshot date and time.
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+cursor{
+  hide-when-typing
+  hide-after-inactive-ms 1000
+}
 
 // You can also set this to null to disable saving screenshots to disk.
 // screenshot-path null
