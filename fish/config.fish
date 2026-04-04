@@ -28,6 +28,14 @@ alias vpn-gt-split='sudo openconnect --protocol=gp vpn.gatech.edu \
     -s "vpn-slice login-ice.pace.gatech.edu" \
     --background
 '
+function y
+	set tmp (mktemp -t "yazi-cwd.XXXXXX")
+	command yazi $argv --cwd-file="$tmp"
+	if read -z cwd < "$tmp"; and [ "$cwd" != "$PWD" ]; and test -d "$cwd"
+		builtin cd -- "$cwd"
+	end
+	rm -f -- "$tmp"
+end
 
 function compress
     set input $argv[1]
