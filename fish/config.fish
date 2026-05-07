@@ -256,6 +256,10 @@ function pall
             set resume_args[1] "$resume_args[1],sub_font_offset=$saved_font_offset"
             echo "Restoring subtitle font offset: $saved_font_offset"
         end
+        if string match -qr '^[0-9.]+$' "$saved_sub_scale"; and test "$saved_sub_scale" != 1
+            set -a resume_args --sub-scale=$saved_sub_scale
+            echo "Restoring sub-scale: $saved_sub_scale"
+        end
     end
 
     # --- Locate subtitle directory ---
