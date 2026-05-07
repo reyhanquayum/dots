@@ -34,6 +34,7 @@ mp.register_event("shutdown", function()
     else
         local speed = mp.get_property_number("speed", 1)
         local font_offset = tonumber(mp.get_property("user-data/sub-font-offset") or "0") or 0
+        local sub_scale = mp.get_property_number("sub-scale", 1)
         os.execute("mkdir -p '" .. state_dir .. "'")
         local fh = io.open(state_file, "w")
         if fh then
@@ -41,6 +42,7 @@ mp.register_event("shutdown", function()
             fh:write(tostring(speed) .. "\n")
             fh:write(tostring(last_time_pos) .. "\n")
             fh:write(tostring(font_offset) .. "\n")
+            fh:write(tostring(sub_scale) .. "\n")
             fh:close()
         end
     end

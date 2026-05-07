@@ -99,3 +99,27 @@ Vim-style search across all subtitle files in the playlist.
 ## Playlist Resume (playlist-resume.lua)
 
 No keybindings. Automatically saves/restores playlist position when using `pall`.
+
+## mpvacious (Anki sentence-mining)
+
+Config: `~/.config/mpv/script-opts/subs2srs.conf`. Requires Anki + AnkiConnect running.
+
+`Ctrl+j` and `Ctrl+g` are kept for `playlist-goto` and `sub-search-goto`; mpvacious's
+versions of those actions are remapped to `Ctrl+Alt+j` and `Ctrl+Alt+g` in `input.conf`.
+
+| Key | Action |
+|-----|--------|
+| `a` | Open advanced menu |
+| `g` | Open quick card menu |
+| `Alt+g` | Open quick card-selection menu |
+| `Ctrl+n` | Add new note from current subtitle |
+| `Ctrl+c` | Copy current subtitle to clipboard |
+| `Ctrl+Shift+c` | Copy secondary subtitle to clipboard |
+| `Ctrl+v` | Toggle secondary subtitle visibility |
+| `Ctrl+k` | Select previous secondary subtitle track |
+| `Ctrl+Alt+j` | Select next secondary subtitle track *(moved from Ctrl+j)* |
+| `Ctrl+b` / `Ctrl+Shift+b` | Update / overwrite the selected note |
+| `Ctrl+m` / `Ctrl+Shift+m` | Update / overwrite the last added note |
+| `Ctrl+h` / `Ctrl+Shift+h` | Seek to start of line / replay current subtitle |
+| `Ctrl+Shift+l` | Play until next subtitle's end |
+| `Ctrl+Alt+g` | Toggle animated snapshots *(moved from Ctrl+g)* |

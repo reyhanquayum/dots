@@ -228,6 +228,7 @@ function pall
         set -l saved_speed $lines[2]
         set -l saved_time $lines[3]
         set -l saved_font_offset $lines[4]
+        set -l saved_sub_scale $lines[5]
         set -l file_count (count $media)
         set -l has_resume false
         if string match -qr '^\d+$' "$saved_pos"; and test "$saved_pos" -ge 0 2>/dev/null; and test "$saved_pos" -lt "$file_count" 2>/dev/null

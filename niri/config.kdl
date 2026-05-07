@@ -572,7 +572,7 @@ binds {
     Print { screenshot; }
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
-    Shift+Print { spawn "bash" "-c" "grim -g \"$(slurp)\" - | tesseract - - | wl-copy"; }
+    Shift+Print { spawn "bash" "-c" "grim -g \"$(slurp)\" - | tesseract - - -l eng+ara | wl-copy"; }
 
     // Applications such as remote-desktop clients and software KVM switches may
     // request that niri stops processing the keyboard shortcuts defined here
