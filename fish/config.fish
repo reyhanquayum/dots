@@ -199,13 +199,27 @@ end
 
 function pall
     # function to play all media in a directory, map subtitles, sticky settings
-    # made for OMSCS, but should work in general
+    # should work in general
+    # -c / --clipboard : enable mpvacious autoclip (subs auto-copy to clipboard
+    #                   for use with browser texthooker + Yomitan-style popup dicts)
     set -l extra_mpv_args
+    set -l clipboard_mode false
+    set -l texthook_owned_pid
+    set -l filtered
+    for arg in $argv
+        switch $arg
+            case -c --clipboard
+                set clipboard_mode true
+            case '*'
+                set -a filtered $arg
+        end
+    end
+    set argv $filtered
     if contains -- --video $argv
         set -a extra_mpv_args --force-window=yes --sub-pos=50
     end
 
-    # --- Collect media files ---
+    # collects media files
     set -l media
     for ext in mp4 mkv webm avi mov opus mp3 flac m4a wav ogg aac wma
         set -a media *.$ext 2>/dev/null
@@ -229,6 +243,8 @@ function pall
         set -l saved_time $lines[3]
         set -l saved_font_offset $lines[4]
         set -l saved_sub_scale $lines[5]
+        set -l saved_aid $lines[6]
+        set -l saved_sid $lines[7]
         set -l file_count (count $media)
         set -l has_resume false
         if string match -qr '^\d+$' "$saved_pos"; and test "$saved_pos" -ge 0 2>/dev/null; and test "$saved_pos" -lt "$file_count" 2>/dev/null
@@ -260,6 +276,34 @@ function pall
             set -a resume_args --sub-scale=$saved_sub_scale
             echo "Restoring sub-scale: $saved_sub_scale"
         end
+        if test -n "$saved_aid"; and test "$saved_aid" != auto; and test "$saved_aid" != no
+            set -a resume_args --aid=$saved_aid
+            echo "Restoring audio track: $saved_aid"
+        end
+        if test -n "$saved_sid"; and test "$saved_sid" != auto; and test "$saved_sid" != no
+            set -a resume_args --sid=$saved_sid
+            echo "Restoring subtitle track: $saved_sid"
+        end
+    end
+
+    if test "$clipboard_mode" = true
+        set resume_args[1] "$resume_args[1],subs2srs-autoclip=yes"
+        echo "Autoclip enabled — subs will copy to clipboard for texthooker"
+
+        # Auto-launch texthook if it isn't already listening on :8766.
+        # If we launch it, kill it again when mpv exits. If something else
+        # was already running, leave it alone.
+        if ss -tlnH 2>/dev/null | grep -q ':8766\b'
+            echo "  texthook already running → http://localhost:8766/  (will stay up)"
+        else if command -q texthook
+            nohup texthook >/dev/null 2>&1 &
+            set texthook_owned_pid $last_pid
+            disown
+            sleep 0.3
+            echo "  texthook launched        → http://localhost:8766/  (stops when mpv exits)"
+        else
+            echo "  warning: texthook not in PATH; start the texthooker manually"
+        end
     end
 
     # --- Locate subtitle directory ---
@@ -290,12 +334,14 @@ function pall
     # No subtitles found — plain playback
     if test -z "$srt_dir"
         mpv --fs $extra_mpv_args $resume_args $media
+        test -n "$texthook_owned_pid"; and kill $texthook_owned_pid 2>/dev/null
         return
     end
 
     set -l srts (find "$srt_dir" -maxdepth 1 -name '*.srt' -print | sort)
     if test (count $srts) -eq 0
         mpv --fs $extra_mpv_args $resume_args $media
+        test -n "$texthook_owned_pid"; and kill $texthook_owned_pid 2>/dev/null
         return
     end
 
@@ -339,6 +385,7 @@ function pall
     end
 
     mpv $extra_mpv_args $resume_args $args
+    test -n "$texthook_owned_pid"; and kill $texthook_owned_pid 2>/dev/null
 end
 
 function openw --description 'Open docx files silently in the background'
