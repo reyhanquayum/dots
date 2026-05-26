@@ -7,6 +7,7 @@ format = """
 [](color_orange)\
 $os\
 $username\
+$hostname\
 [](bg:color_yellow fg:color_orange)\
 $directory\
 [](fg:color_yellow bg:color_aqua)\
@@ -39,9 +40,9 @@ palette = 'decay_dark'
 color_fg0 = '#B1CCC9'        # decay foreground (light text)
 color_bg1 = '#2f3434'        # decay lighter (dark but visible background)
 color_bg3 = '#3F4947'        # decay comments (dark but visible)
-color_blue = '#6d8f8e'        # darker teal-blue
-color_aqua = '#4FDAD1'        # decay green/accent (bright teal background!)
-color_green = '#4FDAD1'      # decay green/accent (for symbols)
+color_blue = '#6d8f8e'        # darker teal-blue (segment separator)
+color_aqua = '#74BEE9'        # fastfetch logo blue
+color_green = '#74BEE9'      # match success arrow to username
 color_orange = '#2D3130'     # decay black (darkest background)
 color_purple = '#a08bb5'     # darker magenta
 color_red = '#e88693'        # decay red
@@ -65,9 +66,14 @@ Windows = "󰍲 "
 
 [username]
 show_always = true
-style_user = "bg:color_orange fg:color_fg0"
-style_root = "bg:color_orange fg:color_fg0"
-format = '[ $user ]($style)'
+style_user = "bg:color_orange fg:color_aqua"
+style_root = "bg:color_orange fg:color_aqua"
+format = '[ $user]($style)'
+
+[hostname]
+ssh_only = false
+style = "bg:color_orange fg:color_fg0"
+format = '[@$hostname ]($style)'
 
 [directory]
 style = "fg:color_fg0 bg:color_yellow"

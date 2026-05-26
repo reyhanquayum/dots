@@ -107,6 +107,7 @@ layout {
     background-color "transparent"
 
     focus-ring {
+        off
         width 1
         active-color   "#9dcbfb"
         inactive-color "#8c9199"
@@ -114,6 +115,7 @@ layout {
     }
 
     border {
+        off
         width 1
         active-color   "#9dcbfb"
         inactive-color "#8c9199"
@@ -134,7 +136,7 @@ layout {
         color "#9dcbfb80"
     }
 
-    gaps 0
+    gaps 8
 
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
@@ -176,6 +178,9 @@ layout {
 
 // Clipboard watcher
 spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
+
+// niri screentime daemon
+spawn-at-startup "/home/reyhan/go/bin/niri-screen-time" "-daemon"
 
 // Polkit agent for elevation prompts
 spawn-at-startup "/usr/lib/mate-polkit/polkit-mate-authentication-agent-1"
@@ -263,6 +268,16 @@ window-rule {
     clip-to-geometry true
     tiled-state true
     draw-border-with-background false
+}
+
+window-rule {
+    match is-active=false
+    opacity 0.9
+}
+
+window-rule {
+    match is-active=true
+    opacity 1.0
 }
 
 environment {
@@ -602,3 +617,5 @@ window-rule {
     match app-id="CEmu"
     open-floating true
 }
+
+include "dms/windowrules.kdl"

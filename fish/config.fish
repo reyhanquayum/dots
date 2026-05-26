@@ -287,6 +287,9 @@ function pall
     end
 
     if test "$clipboard_mode" = true
+        # mpvacious no longer auto-loads — pull it in via the `mining` profile
+        # so the autoclip script-opt below actually has a script to act on.
+        set -a extra_mpv_args --profile=mining
         set resume_args[1] "$resume_args[1],subs2srs-autoclip=yes"
         echo "Autoclip enabled — subs will copy to clipboard for texthooker"
 
