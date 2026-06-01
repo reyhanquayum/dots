@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VAULT_PATH="/home/reyhan/gdrive/recall-verbalize-burned"
+VAULT_PATH="/home/reyhan/mnt/gdrive/recall-verbalize-burned"
 MOUNT_POINT="$HOME/.local/share/Cryptomator/mnt/recall-verbalize-burned"
 MOUNTER="org.cryptomator.frontend.fuse.mount.LinuxFuseMountProvider"
 

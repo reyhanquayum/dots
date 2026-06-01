@@ -222,7 +222,7 @@ animations {
     // off
 
     // Slow down all animations by this factor. Values below 1 speed them up instead.
-    // slowdown 3.0
+    slowdown 0.5
 }
 
 // Window rules let you adjust behavior for individual windows.
@@ -587,7 +587,8 @@ binds {
     Print { screenshot; }
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
-    Shift+Print { spawn "bash" "-c" "grim -g \"$(slurp)\" - | tesseract - - -l eng+ara | wl-copy"; }
+    Shift+Print { spawn "bash" "-c" "grim -g \"$(slurp)\" - | tesseract - - -l eng | wl-copy"; }
+    Mod+Shift+Print { spawn "bash" "-c" "grim -g \"$(slurp)\" - | tesseract - - -l ara | wl-copy"; }
 
     // Applications such as remote-desktop clients and software KVM switches may
     // request that niri stops processing the keyboard shortcuts defined here
@@ -605,7 +606,7 @@ binds {
 
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
-    Mod+Shift+P { power-off-monitors; }
+    // Mod+Shift+P { power-off-monitors; }
 }
 gestures {
     hot-corners {

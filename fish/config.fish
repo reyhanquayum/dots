@@ -30,6 +30,8 @@ alias vpn-gt-split='sudo openconnect --protocol=gp vpn.gatech.edu \
     -s "vpn-slice login-ice.pace.gatech.edu" \
     --background
 '
+alias cat='bat'
+
 function y
 	set tmp (mktemp -t "yazi-cwd.XXXXXX")
 	command yazi $argv --cwd-file="$tmp"
