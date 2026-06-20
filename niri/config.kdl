@@ -307,7 +307,7 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+Shift+T hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
     Mod+T hotkey-overlay-title="Open a Terminal: kitty session" { spawn "kitty" "--session" "/home/reyhan/.config/kitty/sessions/brain.conf"; }
-    Mod+B hotkey-overlay-title="Open Browser: Zen" { spawn "zen-browser"; }
+    Mod+B hotkey-overlay-title="Open Browser: Helium" { spawn "/home/reyhan/Applications/helium/AppRun"; }
 
     Mod+E hotkey-overlay-title="Open File Explorer: Nautilus" { spawn "nautilus"; }
 

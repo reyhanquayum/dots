@@ -85,7 +85,7 @@ end
 
 function pdf
     set -l dir (test (count $argv) -gt 0; and echo $argv[1]; or echo ~/Documents)
-    set -l selected (find "$dir" -type f -name "*.pdf" 2>/dev/null | fzf --preview 'pdftotext {} - | head -200')
+    set -l selected (find "$dir" -type f -name "*.pdf" 2>/dev/null | fzf --preview '~/.config/fish/pdf-preview.sh {}')
 
     if test -n "$selected"
         sioyek "$selected" &>/dev/null &
@@ -123,7 +123,7 @@ end
 starship init fish | source
 
 export ELECTRON_OZONE_PLATFORM_HINT="auto"
-export BROWSER=firefox
+export BROWSER=helium.desktop
 set -x JAVA_HOME /usr/lib/jvm/java-17-openjdk
 fish_add_path $JAVA_HOME/bin
 
@@ -180,6 +180,32 @@ end
 function hpca-stop
     docker stop hpca-dev
     docker rm hpca-dev
+end
+
+# Start/create persistent ESO container
+function eso-start
+    docker run -d --name eso-dev \
+        -v ~/Documents/OMSCS/eso/:/workspace \
+        -w /workspace \
+        eso-custom \
+        sleep infinity
+end
+
+function eso
+    if not docker ps -q -f name=eso-dev > /dev/null
+        if docker ps -a -q -f name=eso-dev > /dev/null
+            docker start eso-dev
+        else
+            echo "Run eso-start first!"
+            return 1
+        end
+    end
+    docker exec -it eso-dev bash
+end
+
+function eso-stop
+    docker stop eso-dev
+    docker rm eso-dev
 end
 
 function fwrec
