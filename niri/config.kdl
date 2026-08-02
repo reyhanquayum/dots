@@ -241,6 +241,13 @@ window-rule {
     clip-to-geometry true
 }
 
+// Float the sioyek PDF-picker popup (kitty running the `pdf` fish function) like an overlay.
+window-rule {
+    match app-id=r#"^pdf-picker$"#
+    open-floating true
+    default-column-width { proportion 0.5; }
+}
+
 // Open the Firefox picture-in-picture player as floating by default.
 window-rule {
     // This app-id regular expression will work for both:

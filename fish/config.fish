@@ -83,17 +83,6 @@ function latestvid
     end
 end
 
-function pdf
-    set -l dir (test (count $argv) -gt 0; and echo $argv[1]; or echo ~/Documents)
-    set -l selected (find "$dir" -type f -name "*.pdf" 2>/dev/null | fzf --preview '~/.config/fish/pdf-preview.sh {}')
-
-    if test -n "$selected"
-        sioyek "$selected" &>/dev/null &
-        disown
-        echo "Opening: $selected"
-    end
-end
-
 # set up zoxide to replace cd alias
 
 eval "$(zoxide init --cmd cd fish)"
