@@ -22,7 +22,7 @@
     "tray"
   ],
   "height": 44,
-  "modules-center": ["clock", "custom/prayerbar"],
+  "modules-center": ["clock"],
   "clock": {
     "format": "{:%a %b %d  %I:%M %p}",
     "tooltip": true,
@@ -44,13 +44,6 @@
         "on-scroll-up": "shift_up",
         "on-scroll-down": "shift_down"
     }
-  },
-  "custom/prayerbar": {
-    "format": " {}",
-    "tooltip": true,
-    "interval": 3600,
-    "exec": "/home/reyhan/.config/waybar/prayerbar --city Kingston --country USA --method 2 --ampm",
-    "return-type": "json"
   },
   "niri/workspaces": {
     "all-outputs": false,

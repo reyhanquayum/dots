@@ -1,17 +1,48 @@
+# CachyOS sources done.fish, which probes the focused window. On niri it falls
+# through to the X11 branch and runs xprop before every command. xprop returns
+# 0x0 here, so the notifications never fire. Hide DISPLAY while done.fish loads.
+# done.fish then finds no window method and disables itself. This removes the
+# xprop calls at startup and before every command.
+set -l __saved_display $DISPLAY
+set -e DISPLAY
 source /usr/share/cachyos-fish-config/cachyos-config.fish
+if test -n "$__saved_display"
+    set -gx DISPLAY $__saved_display
+end
 
 # Override CachyOS bat manpager — less breaks with Fish 4.x + Kitty keyboard protocol
 set -x MANPAGER "nvim +Man!"
 
 # overwrite greeting
-# potentially disabling fastfetch
-#function fish_greeting
-#    # smth smth
-#end
-#
+# CachyOS defines fish_greeting to run plain `fastfetch`. The full config in
+# ~/.config/fastfetch/config.jsonc needs 104 columns. Mod+T opens kitty at 65
+# columns, so fastfetch wrapped and the logo collided with the text.
+# This override picks the compact profile when the window is too narrow.
+function fish_greeting --description 'Run fastfetch at a width that fits the window'
+    set -l cols $COLUMNS
+    test -n "$cols"; or set cols 80
+    if test $cols -ge 104
+        fastfetch
+    else
+        fastfetch --config $HOME/.config/fastfetch/compact.jsonc
+    end
+end
+
+# Redraw fastfetch after you resize a window. The greeting only runs once, at
+# shell start, so it cannot follow a later resize on its own.
+function ff --description 'Re-run fastfetch at the current window width'
+    fish_greeting
+end
+
 #alias sioyek="kitty +kitten launch sioyek"
 #alias nautilus="kitty +kitten launch nautilus"
 alias ocr='tesseract'
+# Override the CachyOS ls aliases with the standard Unix meanings
+set -l __eza_opts --color=always --group-directories-first --icons=always
+alias ls="eza $__eza_opts"     # grid, no dotfiles
+alias la="eza -a $__eza_opts"  # grid, dotfiles too
+alias ll="eza -l $__eza_opts"  # long
+alias lla="eza -al $__eza_opts" # long, dotfiles too
 alias ltst='eza -s modified -r --color=always --icons=always | head -1'
 alias lsd='eza -D -1 --icons --hyperlink'
 alias lsh='eza --hyperlink --icons --long --no-permissions --no-user'
@@ -112,7 +143,7 @@ end
 starship init fish | source
 
 export ELECTRON_OZONE_PLATFORM_HINT="auto"
-export BROWSER=helium.desktop
+export BROWSER=helium-browser
 set -x JAVA_HOME /usr/lib/jvm/java-17-openjdk
 fish_add_path $JAVA_HOME/bin
 
@@ -187,7 +218,7 @@ function pall
     for ext in mp4 mkv webm avi mov opus mp3 flac m4a wav ogg aac wma
         set -a media *.$ext 2>/dev/null
     end
-    set media (for f in $media; test -f "$f"; and echo "$f"; end | sort)
+    set media (for f in $media; test -f "$f"; and echo "$f"; end | sort -V)
     if test (count $media) -eq 0
         echo "No media files found in current directory."
         return 1
@@ -304,7 +335,7 @@ function pall
         return
     end
 
-    set -l srts (find "$srt_dir" -maxdepth 1 -name '*.srt' -print | sort)
+    set -l srts (find "$srt_dir" -maxdepth 1 -name '*.srt' -print | sort -V)
     if test (count $srts) -eq 0
         mpv --fs $extra_mpv_args $resume_args $media
         test -n "$texthook_owned_pid"; and kill $texthook_owned_pid 2>/dev/null
@@ -383,3 +414,10 @@ function pomo
         notify-send -u critical -t 0 "Back to work!"
     end
 end
+
+# Qwen Code PATH block begin
+set -gx PATH '/home/reyhan/.local/bin' $PATH
+# Qwen Code PATH block end
+
+# opencode
+fish_add_path /home/reyhan/.opencode/bin
