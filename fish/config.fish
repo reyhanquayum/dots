@@ -421,3 +421,50 @@ set -gx PATH '/home/reyhan/.local/bin' $PATH
 
 # opencode
 fish_add_path /home/reyhan/.opencode/bin
+
+# Watt owns the battery charge cap through the battery-charge-limit rule in
+# /etc/watt.toml. Watt reloads that file on SIGHUP, so no restart is needed.
+#   watt-charge        show the configured and live limit
+#   watt-charge 80     cap charging at 80 percent
+#   watt-charge 100    charge to full
+function watt-charge --description 'Set the Watt battery charge limit'
+    set -l conf /etc/watt.toml
+    set -l sysfs /sys/class/power_supply/BATT/charge_control_end_threshold
+
+    if not test -r $conf
+        echo "watt-charge: cannot read $conf" >&2
+        return 1
+    end
+
+    if test (count $argv) -eq 0
+        set -l configured (sed -nE 's/^power\.charge-threshold-end[[:space:]]*=[[:space:]]*([0-9]+).*/\1/p' $conf)
+        set -l live (cat $sysfs 2>/dev/null)
+        echo "watt-charge: configured $configured, live $live"
+        return 0
+    end
+
+    set -l limit $argv[1]
+    if not string match -qr '^[0-9]+$' -- $limit
+        echo "watt-charge: limit must be a number, for example 80 or 100" >&2
+        return 1
+    end
+    if test $limit -lt 50; or test $limit -gt 100
+        echo "watt-charge: limit must be between 50 and 100" >&2
+        return 1
+    end
+
+    if not grep -q '^power\.charge-threshold-end' $conf
+        echo "watt-charge: no charge-threshold-end line in $conf" >&2
+        return 1
+    end
+
+    sudo sh -c "sed -i -E 's/^(power\.charge-threshold-end[[:space:]]*=[[:space:]]*)[0-9]+/\1$limit/' '$conf' && if systemctl is-active --quiet watt.service; then systemctl kill -s HUP watt.service; fi"
+    if test $status -ne 0
+        echo "watt-charge: failed to update $conf or reload watt.service" >&2
+        return 1
+    end
+
+    sleep 1
+    set -l live (cat $sysfs 2>/dev/null)
+    echo "watt-charge: cap set to $limit, live $live"
+end

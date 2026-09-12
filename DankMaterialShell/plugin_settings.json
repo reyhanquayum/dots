@@ -1,0 +1,24 @@
+{
+  "dankPomodoroTimer": {
+    "enabled": true
+  },
+  "prayerTimes": {
+    "enabled": false
+  },
+  "prayerTimesPlugin": {
+    "lat": "41.5543",
+    "lon": "74.0007"
+  },
+  "dankKDEConnect": {
+    "enabled": true
+  },
+  "dankTodoman": {
+    "enabled": true
+  },
+  "librepods": {
+    "enabled": true
+  },
+  "wattMonitor": {
+    "enabled": true
+  }
+}

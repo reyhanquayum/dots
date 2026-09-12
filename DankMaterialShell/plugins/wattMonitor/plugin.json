@@ -1,0 +1,17 @@
+{
+    "id": "wattMonitor",
+    "name": "Watt Monitor",
+    "description": "Live view of Watt CPU power rules, governor, EPP, platform profile and frequency.",
+    "version": "1.0.0",
+    "author": "reyhan",
+    "type": "widget",
+    "capabilities": ["dankbar-widget", "control-center"],
+    "component": "./WattWidget.qml",
+    "icon": "bolt",
+    "startupCheck": "./StartupCheck.qml",
+    "dependencies": ["watt"],
+    "permissions": [
+        "settings_read",
+        "settings_write"
+    ]
+}
