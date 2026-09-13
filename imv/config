@@ -1,0 +1,2 @@
+[binds]
+<Ctrl+c> = exec wl-copy --type "$(file --mime-type -b "$imv_current_file")" < "$imv_current_file"
